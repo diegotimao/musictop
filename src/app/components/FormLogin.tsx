@@ -29,7 +29,7 @@ export default function FormLogin() {
       email,
       password,
     }
-    ref.push(data)
+    ref.push(data);
 
     return restForm();
   }
