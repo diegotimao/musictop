@@ -1,12 +1,9 @@
 'use client'
-import { AuthContext, UserProps } from '@/context/auth'
 import { AtSign, Lock,  } from 'lucide-react'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { database } from '@/services/firebase'
 
 export default function FormLogin() {
-  const { logout } = useContext(AuthContext);
-
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   
