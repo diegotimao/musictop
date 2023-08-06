@@ -9,11 +9,6 @@ export default function FormRegister() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({
-      name,
-      email,
-      password
-    })
   }
 
   return (
