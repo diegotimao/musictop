@@ -6,12 +6,19 @@ import ButtoSocials from './ButtoSocials';
 import logoGoole from '../../../public/logogoogle.png';
 import logoGithub from '../../../public/logogithub.png';
 import { AuthContext } from '@/context/auth';
+import Image from 'next/image';
+import LogoImage from '../../../public/logo.svg';
+import Link from 'next/link';
+import Account from './Account';
 
 export default function Formulario({ pathName }: { pathName: string}) {
   return (
-    <section className='bg-white w-full p-10 sm:max-w-xl md:max-w-2xl
+    <section className='bg-white w-full pl-10 p-10 sm:max-w-xl md:max-w-2xl
         rounded-lg flex flex-col gap-8 border-spacing-2 border-gray-800'>
-      <div className='flex flex-col gap-3 pt-2'>
+      <div className='flex flex-col gap-3'>
+        <div className='w-full flex justify-center pb-5'>
+          <Image src={LogoImage} alt='Logo Web' className='w-42'/>
+        </div>
         <div className='flex flex-col gap-3'>
           <span className='text-xl font-semibold text-gray-500'>Seja bem-vindo(a)</span>
           <h1 className='font-semibold text-4xl'>Faça seu {pathName === '/login' ? 'login' : 'cadastro'}</h1>
@@ -23,9 +30,7 @@ export default function Formulario({ pathName }: { pathName: string}) {
           <ButtoSocials title='Google' url={logoGoole} />
           <ButtoSocials title='Github' url={logoGithub} />
       </div>
-      <div className='flex justify-center p-2'>
-        <span>Não tem uma conta? Registre-se</span>
-      </div>    
+      <Account pathName={pathName}/>   
     </section>
   )
 }
