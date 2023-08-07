@@ -2,6 +2,7 @@
 import { AtSign, Lock,  } from 'lucide-react'
 import React, { useState } from 'react'
 import { database } from '@/services/firebase'
+import Link from 'next/link';
 
 export default function FormLogin() {
   const [email, setEmail] = useState<string>("");
@@ -63,6 +64,15 @@ export default function FormLogin() {
         />
         <Lock className='absolute my-12 ml-4' color='#bdb7b7'/>
       </label>
+      <div className='flex justify-between pt-3 pb-3'>
+        <label htmlFor="" className='flex gap-2'>
+          <input type="checkbox" className='cursor-pointer w-5'/>
+          Lembrar de min
+        </label>
+        <Link href={"#"} className='text-blue-500'>
+          Esqueci minha senha?
+        </Link>
+      </div>
       <button
         className='w-full h-14 bg-blue-600 font-bold text-3md text-white rounded-3xl'
       >Continuar</button>
