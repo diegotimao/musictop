@@ -1,5 +1,6 @@
 'use client'
 import { createContext, useContext, useState } from "react";
+import router, { useRouter } from "next/router";
 
 export type UserProps = {
   [x: string]: any;
@@ -10,7 +11,7 @@ export type UserProps = {
 type AuthContextProps = {
   user: UserProps | null,
   login: (user: UserProps) => void,
-  logout: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  logout: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);

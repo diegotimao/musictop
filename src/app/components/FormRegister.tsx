@@ -1,14 +1,64 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { AtSign, Lock, User } from 'lucide-react';
+import { ValidationEmail } from '@/utils/ValidattionEmail';
+import { hashPassword } from '@/utils/bcryptUtils';
+import { firebase } from '@/services/firebase';
+import { useRouter } from 'next/navigation';
 
 export default function FormRegister() {
   const [email, setEmail] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const existEmailUser = async (email: string) => {
+    try {
+      const usersRef = firebase.database().ref('users');
+      const snapshot = await usersRef.orderByChild('email').equalTo(email).once('value');
+      console.log(snapshot.exists());
+      return snapshot.exists();
+    } catch (error) {
+      console.log("Error");
+      return false;
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    try {
+      const ref = firebase.database().ref('users');
+      const isValidEmail: boolean = ValidationEmail(email);
+
+      if (!isValidEmail || password.length < 6 || name.length < 2) {
+        return alert("Por favor verifique os dados!");
+      }
+
+      const doesEmailExist = await existEmailUser(email);
+      console.log(doesEmailExist);
+      if (!doesEmailExist) {
+        console.log('Creating user...');
+        const hash = await hashPassword(password);
+  
+        const user = {
+          name,
+          email,
+          password: hash,
+        };
+  
+        const insertUser = await ref.push(user);
+        const idUser = await insertUser.key;
+        console.log('User inserted with ID:', idUser);
+        router.push('/'); // Realizar o redirecionamento usando router.push
+      } else {
+        console.log('Email already exists');
+        alert('Já existe um email cadastrado!');
+      }
+    } catch (error) {
+      console.error("Erro ao cadastrar usuário:", error);
+      alert("Erro ao cadastrar usuário. Por favor, tente novamente mais tarde.");
+    }
   }
 
   return (
